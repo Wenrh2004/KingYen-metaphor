@@ -1,0 +1,59 @@
+//  Colors
+@primary-color: #3873f0;
+@link-color: #1890ff;
+@success-color:#22bf87;
+@warning-color:#f67770;
+@error-color:#f35248;
+
+//  中性色
+@gray-0:#ffffff;
+@gray-1:#f6f6f8;
+@gray-2:#949494;
+@gray-9:#5b5b5b;
+@gray-10:#202020;
+
+//  font
+@font-size-12:12px;
+@font-size-14:14px;
+@font-size-18:18px;
+
+//  间距
+@padding-4:4px;
+@padding-8:8px;
+@padding-12:12px;
+@padding-20:20px;
+
+//  全局控制
+body{
+    padding: 0px;
+    margin: 0px;
+    line-height: 1.5;
+    color: @gray-10;
+    font-size: @font-size-14;
+    background-color: @gray-0;
+    transition: all 0.5s;
+    font-family: Avenir,Helvetice,Arial, Helvetica, sans-serif;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+}
+p{
+    padding: 0;
+    margin: 0;
+}
+li{
+    list-style: none;
+}
+img{
+    padding: 0;
+    margin: 0;
+    display: black;
+}
+a{
+    text-decoration: none;
+    &:hover{
+        text-decoration: none;
+    }
+}
+input,textarea{
+    outline: none;
+}
