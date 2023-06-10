@@ -1,7 +1,9 @@
 # KingYen-metaphor
 > My first project in memory of my loved one,
 > developed it with vue and nodejs,
-> it may be simple and childish but it is my first project.
+> it may be simple and childish but it is my first project.  
+> 
+> --King Yen
 ## metaphor-front-end
 
 ### Project setup
