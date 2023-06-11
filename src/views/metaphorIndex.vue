@@ -1,12 +1,14 @@
 <template>
     <div class="metaphor-index">
-        <HeaderIndex></HeaderIndex>
+        <Header></Header>
         <video src="@/assets/images/qm1.mp4" autoplay="autoplay" class="bg-video"></video>
         <router-view></router-view>
+        <Footer></Footer>
     </div>
 </template>
 <script>
-import HeaderIndex from '@/components/HeaderIndex.vue'
+import Header from '@/components/HeaderIndex.vue'
+import Footer from '@/components/FooterIndex.vue'
 export default {
     data() {
         return {
@@ -15,7 +17,8 @@ export default {
     },
     components: {
         // 组件
-        HeaderIndex,
+        Header,
+        Footer,
     },
     computed: {
 
@@ -42,7 +45,7 @@ export default {
         position: fixed;
         top: 0;
         left: 0;
-        z-index: 0;
+        z-index: -1;
         height: 880px;
     }
 }

@@ -25,5 +25,9 @@ npm install axios vue-axios
 ```
 vue add style-resources-loader
 ```
+* mockjs
+```
+npm install mockjs
+```
 ### 引入 iconfont 字样
-[iconfont](http://www.iconfont.cn/)
+> [iconfont](http://www.iconfont.cn/)

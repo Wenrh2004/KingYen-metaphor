@@ -29,7 +29,7 @@ export default {
 <style lang="less" scoped>
 .header-index{
     width: 100%;
-    height: 60px;
+    height: 50px;
     background: rgba(255,255,255,0.80);
     box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
     backdrop-filter:blur(10px);
