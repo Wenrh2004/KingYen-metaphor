@@ -45,6 +45,7 @@ export default {
     background: @gray-10;
     padding: 20px;
     box-sizing: border-box;
+    margin-top: 40px;
 }
 
 .footer-inner {
