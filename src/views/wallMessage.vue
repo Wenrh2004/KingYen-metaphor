@@ -9,8 +9,10 @@
         <div class="card">
             <NoteCard class="card-inner" v-for="(e,index) in note" :key="index" :note="e"></NoteCard>
         </div>
-        <metaModal :title="title" @cloose="changeModal" :isModal="modal"></metaModal>
-        <div class="add" :style="{bottom:addBottom+'px'}" @click="changeModal">
+        <metaModal :title="title" @cloose="changeModal" :isModal="modal">
+        <NewCard :id="id" @addClose="changeModal"></NewCard>
+        </metaModal>
+        <div class="add" :style="{bottom:addBottom+'px'}" @click="changeModal" v-show="!modal">
             <span class="iconfont icon-tianjia"></span>
         </div>
     </div>
@@ -20,6 +22,7 @@ import { wallType,label } from "@/utils/data";
 import NoteCard from '@/components/NoteCard.vue';
 import { note } from "../../mock/index";
 import metaModal from "@/components/mrtaphorModal.vue"
+import NewCard from '@/components/NewCard.vue'
 export default {
     data(){
         return {
@@ -37,6 +40,7 @@ export default {
     components:{
         NoteCard,
         metaModal,
+        NewCard,
     },
     methods:{
         // label 切换

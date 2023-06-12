@@ -17,6 +17,7 @@ export default {
 .mp-button{
     text-align: center;
     border: none;
+    cursor: pointer;
 }
 // size
 .max{
@@ -43,9 +44,9 @@ export default {
     color: @gray-0;
 }
 .secondary{
-    background: @gray-0;
-    color: @gray-10;
-    border: 1px selid @gray-1;
+    background: none;
+    color: @gray-9;
+    border: 1px selid @gray-10;
 }
 .cprimary{
     background: @primary-color;
