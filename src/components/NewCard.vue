@@ -20,8 +20,8 @@
             </div>
         </div>
         <div class="foot-butten">
-            <metaphorButton size="“max" nom="secondary" @click="closeModal(0)">丢弃</metaphorButton>
-            <metaphorButton size="max" class="submit">确定</metaphorButton>
+            <metaphorButton size="max" nom="secondary" @click="closeModal(0)">丢弃</metaphorButton>
+            <metaphorButton size="max" class="sumbit">确定</metaphorButton>
         </div>
     </div>
 </template>
@@ -68,7 +68,7 @@ export default {
 <style lang="less" scoped>
 .new-card {
     position: relative;
-    padding: 0 @padding-20;
+    padding: 0 @padding-20 120px;
     .color{
         padding-bottom: @padding-12;
         display: flex;
@@ -85,7 +85,6 @@ export default {
         }
     }
     .card-main {
-        position: relative;
         height: 240px;
         width: 100%;
         padding: 12px;
@@ -138,23 +137,30 @@ export default {
         }
     }
     .foot {
-        padding-top: 150px;
+        padding-top:80px;
         font-family: HanziPenSC-W3;
         .foot-title {
+            padding-bottom:0px;
             font-size: 15px;
             font-weight: lighter;
             color: @gray-10;
         }
         .foot-index {
+            padding-bottom:0px;
             font-size: 14;
             color: @gray-9;
         }
     }
     .foot-butten {
-            padding: @padding-20 0;
-        }
-    .submit {
-        margin-left: 80px;
+        padding: @padding-20;
+        box-sizing: border-box;
+        position: fixed;
+        bottom: 52px;
+        left: 0;
+        width: 100%;
+    }
+    .sumbit {
+        margin-left: @padding-20;
         width: 200px;
     }
 }

@@ -8,7 +8,7 @@ export default {
             default:'base',
         },
         nom:{
-            default:'primary'
+            default:'primary',
         }
     }
 }
@@ -46,7 +46,7 @@ export default {
 .secondary{
     background: none;
     color: @gray-9;
-    border: 1px selid @gray-10;
+    border: 5px selid @gray-10;
 }
 .cprimary{
     background: @primary-color;
