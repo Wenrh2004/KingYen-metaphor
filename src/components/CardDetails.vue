@@ -76,6 +76,10 @@ export default {
         }
     }
 
+    .note-card {
+        transition: @tr;
+    }
+
     .form {
         .message {
             background: none;
