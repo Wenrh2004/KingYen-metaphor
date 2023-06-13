@@ -1,8 +1,8 @@
 <template>
     <div class="note-card" :style="{ width: width, background: cardColor[card.imgurl] }">
         <div class="top">
-            <p class="time">{{dateOne(card.moment)}}</p>
-            <p class="title">{{label[card.type][card.label]}}</p>
+            <p class="time">{{ dateOne(card.moment) }}</p>
+            <p class="title">{{ label[card.type][card.label] }}</p>
         </div>
         <p class="message">{{ card.message }}</p>
         <div class="foot">

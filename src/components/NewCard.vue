@@ -81,7 +81,7 @@ export default {
             cursor: pointer;
         }
         .colorselected {
-            border: 1px solid rgba(59, 115, 240, 1);
+            border: 1px solid @primary-color;
         }
     }
     .card-main {

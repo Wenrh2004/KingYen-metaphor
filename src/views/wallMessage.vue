@@ -7,12 +7,13 @@
             <p class="label-list" :class="{selected:nlabel==index}" v-for="(e,index) in label[id]" :key="index" @click="selectNote(index)">{{ e }}</p>
         </div>
         <div class="card">
-            <NoteCard class="card-inner" v-for="(e,index) in note" :key="index" :note="e"></NoteCard>
+            <NoteCard class="card-inner" v-for="(e,index) in note" :key="index" :note="e" :width="'288px '" :class="{cardselected:index==cardSelected}" @click="selectedCard(index)"></NoteCard>
         </div>
         <metaModal :title="title" @cloose="changeModal" :isModal="modal">
-        <NewCard :id="id" @addClose="changeModal"></NewCard>
+        <NewCard :id="id" @addClose="changeModal" v-if="cardSelected==-1"></NewCard>
+        <CardDetails v-if="cardSelected!==-1" :card="note[cardSelected]"></CardDetails>
         </metaModal>
-        <div class="add" :style="{bottom:addBottom+'px'}" @click="changeModal" v-show="!modal">
+        <div class="add" :style="{bottom:addBottom+'px'}" @click="addModal" v-show="!modal">
             <span class="iconfont icon-tianjia"></span>
         </div>
     </div>
@@ -23,6 +24,7 @@ import NoteCard from '@/components/NoteCard.vue';
 import { note } from "../../mock/index";
 import metaModal from "@/components/mrtaphorModal.vue"
 import NewCard from '@/components/NewCard.vue'
+import CardDetails from '@/components/CardDetails.vue'
 export default {
     data(){
         return {
@@ -35,12 +37,14 @@ export default {
             addBottom:30 ,   //  add 按钮距离底部高度
             title:'留言',    // 标题
             modal:false,    // 弹窗状态
+            cardSelected:-1, //  当前选择卡片
         }
     },
     components:{
         NoteCard,
         metaModal,
         NewCard,
+        CardDetails,
     },
     methods:{
         // label 切换
@@ -61,10 +65,26 @@ export default {
                 this.addBottom = 30;
             }
         },
+        // 添加卡片
+        addModal() {
+            this.title = '新增留言';
+            this.changeModal();
+        },
         // 切换弹窗状态
         changeModal() {
             this.modal= !this.modal;
-        }
+        },
+        // 卡片选择
+        selectedCard(e) {
+            this.title = "";
+            if(e != this.cardSelected) {
+                this.cardSelected = e;
+                this.modal = true;
+            } else {
+                this.cardSelected = -1;
+                this.modal = false;
+            }
+        },
     },
     mounted() {
         // 监听滚动高度变化
@@ -122,6 +142,9 @@ export default {
         margin: auto;
         .card-inner {
             margin: 6px;
+        }
+        .cardselected {
+            border: 1px solid @primary-color;
         }
     }
     .add {
