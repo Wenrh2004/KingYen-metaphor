@@ -19,7 +19,7 @@
         <NewCard :id="id" @addClose="changeModal" v-if="cardSelected==-1"></NewCard>
         <CardDetails v-if="cardSelected!==-1" :card="note[cardSelected]"></CardDetails>
         </metaModal>
-        <PhotoViewer v-show="modal"></PhotoViewer>
+        <PhotoViewer :isView="view" :photos="photoArr" :nowNumber="cardSelected" @viewSwitch="viewSwitch()"></PhotoViewer>
     </div>
 </template>
 <script>
@@ -44,7 +44,9 @@ export default {
             title:'留言',    // 标题
             modal:false,    // 弹窗状态
             cardSelected:-1, //  当前选择卡片
-            photo:photo.data    //  图片资源
+            photo:photo.data,    //  图片资源
+            photoArr:[],    //  图片列表
+            view:false, //  预览大图
         }
     },
     components:{
@@ -54,6 +56,14 @@ export default {
         CardDetails,
         PhotoCard,
         PhotoViewer,
+    },
+    watch:{
+        id() {
+            this.modal = false;
+            this.view = false;
+            this.nLable = -1;
+            this.cardSelected = -1;
+        }
     },
     computed:{
         //  留言与照片功能切换
@@ -97,11 +107,14 @@ export default {
         // 添加卡片
         addModal() {
             this.title = '新增留言';
-            this.changeModal();
+            this.modal=true;
         },
         // 切换弹窗状态
         changeModal() {
-            this.modal= !this.modal;
+            this.modal=false;
+            if (this.id==1) {
+                this.view = false;
+            }
         },
         // 卡片选择
         selectedCard(e) {
@@ -109,13 +122,33 @@ export default {
             if(e != this.cardSelected) {
                 this.cardSelected = e;
                 this.modal = true;
+                if (this.id==1) {
+                    this.view = true;
+                }
             } else {
                 this.cardSelected = -1;
                 this.modal = false;
+                if (this.id==1) {
+                    this.view = false;
+                }
             }
         },
+        getPhoto() {
+            for (let i = 0; i < this.photo.length; i++) {
+                this.photoArr.push(this.photo[i].imgurl)
+            }
+        },
+        // 切换图片
+        viewSwitch(e) {
+            if (e == 0) {
+                this.cardSelected--;
+            } else {
+                this.cardSelected++;
+            }
+        }
     },
     mounted() {
+        this.getPhoto();
         // 监听滚动高度变化
         window.addEventListener('scroll',this.scrollBottom)
     },

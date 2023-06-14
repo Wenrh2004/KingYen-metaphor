@@ -1,23 +1,70 @@
 <template>
-    <div class="photoviewer">
-        <div class="bg"></div>
-        <div class="viewer-photo">
-            <img :src="require('../../static/1.jpg')">
+    <transition name="view">
+        <div class="photoviewer" v-if="isView">
+        
+            <div class="bg"></div>
+            <div class="viewer-photo">
+                <img :src="require('../../static/' + photos[nowNumber] + '.jpg')">
+            </div>
+            <div class="switch sw-left" @click="changeNumber(0)" v-show="nowNumber > 0">
+                <span class="iconfont icon-xiangzuo"></span>
+            </div>
+            <div class="switch sw-right" @click="changeNumber(1)" v-show="nowNumber < photos.length-1">
+                <span class="iconfont icon-xiangyou"></span>
+            </div>
         </div>
-        <div class="switch sw-left">
-            <span class="iconfont icon-xiangzuo"></span>
-        </div>
-        <div class="switch sw-right">
-            <span class="iconfont icon-xiangyou"></span>
-        </div>
-    </div>
+    </transition>
 </template>
 <script>
-
 export default {
+    props: {
+        photos: {
+            default:[],
+        },
+        nowNumber:{
+            type:Number,
+            default:0,
+        },
+        isView: {
+            default:false,
+        }
+    },
+    methods: {
+        changeNumber(e) {
+            this.$emit('viewSwitch',e);
+        }
+    }
 }
 </script>
 <style lang="less" scoped>
+// 动画
+.view {
+    // 入场
+    &-enter {
+        &-from {
+            opacity: 0;
+        }
+        &-active {
+            transition: @tr;
+        }
+        &-to {
+            opacity: 1;
+        }
+    }
+    // 出场
+    &-leave {
+        &-from {
+            opacity: 1;
+        }
+        &-active {
+            transition: @tr;
+        }
+        &-to {
+            opacity: 0;
+        }
+    }
+}
+// 样式
 .photoviewer {
     position: fixed;
     top: 0;
