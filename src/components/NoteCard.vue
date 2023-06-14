@@ -33,7 +33,7 @@ export default {
     },
     props: {
         width: {
-            default: '280px',
+            default: '100%',
         },
         note:{
             default:{},

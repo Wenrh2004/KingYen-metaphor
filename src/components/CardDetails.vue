@@ -112,7 +112,11 @@ export default {
         padding-top: 30px;
         padding-bottom: 20px;
     }
-    .commont-li{
+    .foot-commont{
+        height: 180px;
+        scroll-behavior: auto;
+
+        .commont-li{
         display: flex;
         padding-bottom: 30px;
 
@@ -145,6 +149,7 @@ export default {
                 padding-top: @padding-4;
             }
         }
+    }
     }
 }
 </style>

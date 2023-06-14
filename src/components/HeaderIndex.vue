@@ -5,8 +5,8 @@
             <p class="logo-name">metaphor</p>
         </div>
         <div class="=menu">
-            <metaphorButton nom="cprimary" class="menu-messagewall">留言墙</metaphorButton>
-            <metaphorButton nom="csecondary" class="menu-photowall">照片墙</metaphorButton>
+            <metaphorButton :nom="id==0?'cprimary':'csecondary'" class="menu-messagewall" @click="changeWall(0)">留言墙</metaphorButton>
+            <metaphorButton :nom="id==1?'cprimary':'csecondary'" class="menu-photowall" @click="changeWall(1)">照片墙</metaphorButton>
         </div>
         <div class="user">
             <div class="user-head"></div>
@@ -23,6 +23,19 @@ export default {
     },
     components:{
         metaphorButton,
+    },
+    computed: {
+        id() {
+            return this.$route.query.id;
+        }
+    },
+    methods: {
+        // 切换
+        changeWall(e) {
+            this.$router.push({
+                query:{ id:e },
+            })
+        }
     }
 }
 </script>

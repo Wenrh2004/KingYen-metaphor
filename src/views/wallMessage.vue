@@ -6,31 +6,37 @@
             <p class="label-list" :class="{selected:nlabel==-1}" @click="selectNote(-1)">全部</p>
             <p class="label-list" :class="{selected:nlabel==index}" v-for="(e,index) in label[id]" :key="index" @click="selectNote(index)">{{ e }}</p>
         </div>
-        <div class="card">
-            <NoteCard class="card-inner" v-for="(e,index) in note" :key="index" :note="e" :width="'288px '" :class="{cardselected:index==cardSelected}" @click="selectedCard(index)"></NoteCard>
+        <div class="card" v-show="id==0">
+            <NoteCard class="card-inner" v-for="(e,index) in note" :key="index" :note="e" :width="'288px'" :class="{cardselected:index==cardSelected}" @click="selectedCard(index)"></NoteCard>
+        </div>
+        <div class="photo" v-show="id==1">
+            <PhotoCard :photo="e" class="photo-card" v-for="(e,index) in photo" :key="index" @click="selectedCard(index)"></PhotoCard>
+        </div>
+        <div class="add" :style="{ bottom:addBottom + 'px' }" @click="addModal" v-show="!modal">
+            <span class="iconfont icon-tianjia"></span>
         </div>
         <metaModal :title="title" @cloose="changeModal" :isModal="modal">
         <NewCard :id="id" @addClose="changeModal" v-if="cardSelected==-1"></NewCard>
         <CardDetails v-if="cardSelected!==-1" :card="note[cardSelected]"></CardDetails>
         </metaModal>
-        <div class="add" :style="{bottom:addBottom+'px'}" @click="addModal" v-show="!modal">
-            <span class="iconfont icon-tianjia"></span>
-        </div>
+        <PhotoViewer v-show="modal"></PhotoViewer>
     </div>
 </template>
 <script>
 import { wallType,label } from "@/utils/data";
 import NoteCard from '@/components/NoteCard.vue';
-import { note } from "../../mock/index";
+import { note,photo } from "../../mock/index";
 import metaModal from "@/components/mrtaphorModal.vue"
 import NewCard from '@/components/NewCard.vue'
 import CardDetails from '@/components/CardDetails.vue'
+import PhotoCard from '@/components/PhotoCard.vue'
+import PhotoViewer from "@/components/PhotoViewer.vue";
 export default {
     data(){
         return {
             wallType,
             label,
-            id:0,   //  留言与照片功能切换
+            nWidth:0,   // 卡片模块宽度
             nlabel:-1,   //  对应标签
             note:note.data,  //  时间数据
             cardWidth:0,    //  卡片模块宽度
@@ -38,6 +44,7 @@ export default {
             title:'留言',    // 标题
             modal:false,    // 弹窗状态
             cardSelected:-1, //  当前选择卡片
+            photo:photo.data    //  图片资源
         }
     },
     components:{
@@ -45,11 +52,33 @@ export default {
         metaModal,
         NewCard,
         CardDetails,
+        PhotoCard,
+        PhotoViewer,
+    },
+    computed:{
+        //  留言与照片功能切换
+        id() {
+            return this.$route.query.id; 
+        },
+        card() {
+            let a = '';
+            if (this.$route.query.id == 0) {
+                a = note.data;
+            } else if (this.$route.query.id == 1) {
+                a = photo.data;
+            }
+            return a;
+        }
     },
     methods:{
         // label 切换
         selectNote(e) {
             this.nlabel= e;
+        },
+        // 卡片模块宽度
+        getnotewidth() {
+            let wWidth = document.body.clientWidth
+            this.nWidth = Math.floor((wWidth - 120) / 300) * 300
         },
         // 监听页面滚动
         scrollBottom() {
@@ -146,6 +175,16 @@ export default {
         .cardselected {
             border: 1px solid @primary-color;
         }
+    }
+    .photo {
+        width: 88%;
+        margin: 0 auto;
+        columns: 5;
+    }
+    .photo-card {
+        margin-bottom: @padding-4;
+        break-inside: avoid;
+        column-gap: 4px;
     }
     .add {
         width: 56px;

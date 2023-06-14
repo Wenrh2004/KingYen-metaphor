@@ -97,12 +97,13 @@ props
             padding-bottom: 116px;
             box-sizing: border-box;
             border: 1px solid #eee;
-            overflow-x: auto;
+            overflow-y: auto;
             margin: 2px;
         }
 
         .modal-main {
-            overflow-x: auto;
+            height: 500px;
+            overflow: auto;
             margin-right: 2px;
         }
 
