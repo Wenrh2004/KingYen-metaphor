@@ -1,9 +1,21 @@
 <template>
     <div class="new-card">
-        <div class="color">
-        <p class="color-li" v-for="(e,index) in cardColorChooes" :key="index" :style="{background:e}" :class="{colorselected:index==colorSelected}" @click="changeColor(index)"></p>
+        <div class="color" v-show="id == 0">
+        <p class="color-li" v-for="(e,index) in cardColorChooese" :key="index" :style="{background:e}" :class="{colorselected:index==colorSelected}" @click="changeColor(index)"></p>
         </div>
-        <div class="card-main" :style="{background:cardColor[colorSelected]}">
+        <!-- 照片 -->
+        <div class="photo-main" v-if="id == 1">
+            <input type="file" name="file" id="file" multiple="multiple" @change="showPhoto">
+            <div class="add-bt" v-if="url == ''">
+                <span class="iconfont icon-tianjia"></span>
+            </div>
+            <div class="change-bt" v-if="url != ''">
+                <span class="iconfont icon-xiugai"></span>
+            </div>
+            <div class="photo-div"><img :src="url"></div>
+        </div>
+        <!-- 卡片 -->
+        <div class="card-main" :style="{background:id==0 ? cardColor[colorSelected]:cardColor[5]}">
             <textarea placeholder="留言..." class="message" maxlength="96" v-model="message"></textarea>
             <input type="text" placeholder="签名" class="name" v-model="name">
         </div>
@@ -21,23 +33,26 @@
         </div>
         <div class="foot-butten">
             <metaphorButton size="max" nom="secondary" @click="closeModal(0)">丢弃</metaphorButton>
-            <metaphorButton size="max" class="sumbit">确定</metaphorButton>
+            <metaphorButton size="max" class="sumbit" @click="submit()">确定</metaphorButton>
         </div>
     </div>
 </template>
 <script>
-import { cardColor,cardColorChooes,label } from "@/utils/data";
+import { cardColor,cardColorChooese,label } from "@/utils/data";
+import { getObjectURL } from "@/utils/way";
 import metaphorButton from './metaphorButton.vue';
 export default {
     data() {
         return {
             cardColor,
-            cardColorChooes,
+            cardColorChooese,
             label,
             colorSelected:0, // 当前选择颜色
             labelSelected:0,    //  当前选择标签
             message:'', //  留言信息
             name:'',    //  签名
+            url:'',     //  图片路径
+            user:this.$store.state.user,
         }
     },
     components:{
@@ -61,8 +76,31 @@ export default {
         // 关闭弹窗
         closeModal(data) {
             this.$emit('addClose',data);
+        },
+        // 上传图片展
+        showPhoto() {
+            let aa = getObjectURL(document.getElementById("file").files[0]);
+            this.url = aa;
+        },
+        // submit
+        submit(){
+            let name = '匿名';
+            if (this.name) {
+                name = this.name
+            }
+            let data = {
+                type:this.id,
+                message:this.message,
+                name:name,
+                userID:this.user.id,
+                moment:new Date(),
+                label:this.nowLabel,
+                color:5,
+                imgurl:'',
+            };
+            console.log(data);
         }
-    },
+    }
 }
 </script>
 <style lang="less" scoped>
@@ -82,6 +120,65 @@ export default {
         }
         .colorselected {
             border: 1px solid @primary-color;
+        }
+    }
+    .photo-main {
+        padding-bottom: 10px;
+        position: relative;
+
+        #file {
+            position: absolute;
+            z-index: 10;
+            top:-10px;
+            height: 74px;
+            width: 64px;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .add-bt {
+            width: 64px;
+            height: 64px;
+            border: 1px solid @gray-2;
+            border-radius: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+
+            .icon-tianjia {
+                font-size: 24px;
+            }
+        }
+
+        .change-bt {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .icon-xiugai {
+                color: #fff;
+            }
+        }
+
+        .photo-div {
+            max-height: 200px;
+            width: 100%;
+            background: #333;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+
+            img {
+                width: 100%;
+            }
         }
     }
     .card-main {

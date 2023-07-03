@@ -9,6 +9,7 @@
 <script>
 import Header from '@/components/HeaderIndex.vue'
 import Footer from '@/components/FooterIndex.vue'
+import { signIpApi } from "@/api/index";
 export default {
     data() {
         return {
@@ -28,11 +29,12 @@ export default {
     },
     methods: {
         gerUser() {
-            this.axios.post("", {
-                data: 'username',
-                pwd: 'password'
-            }).then((res) => {
-                console.log(res);
+            signIpApi().then((res) => {
+                // console.log(res);
+                let user = {
+                    id:res.ip,
+                }
+                this.$store.commit('getUser',user)
             })
 
         }

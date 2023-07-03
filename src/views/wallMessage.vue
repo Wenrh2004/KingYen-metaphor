@@ -106,7 +106,11 @@ export default {
         },
         // 添加卡片
         addModal() {
-            this.title = '新增留言';
+            if (this.id == 0) {
+                this.title = '新增留言';
+            } else {
+                this.title = '新增照片';
+            }
             this.modal=true;
         },
         // 切换弹窗状态

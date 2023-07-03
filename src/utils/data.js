@@ -23,7 +23,7 @@ export const cardColor = [
     'rgba(212,212,212,0.30)'
 ]
 // 添加界面卡片背景色
-export const cardColorChooes = [
+export const cardColorChooese = [
     'rgba(252,175,162,1)',
     'rgba(255,227,148,1)',
     'rgba(146,230,245,1)',
