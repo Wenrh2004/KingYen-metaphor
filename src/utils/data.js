@@ -48,3 +48,26 @@ export const portrait = [
     'linear-gradient(180deg, #FFDC83 0%,#F88816 100%)',
     'Linear-gradient(180deg, #FFBA8D 1%,#EB6423 100%)',
 ];
+// 背景板
+export const none = [
+    {
+        url:require('../assets/images/无内容.svg'),
+        msg:'目前还没有留言，快来贴上第一张吧～'
+    },
+    {
+        url:require('../assets/images/页面为空.svg'),
+        msg:'目前还没有留言，快来贴上第一张吧～'
+    },
+    {
+        url:require('../assets/images/暂无记录.svg'),
+        msg:'目前还没有留言，快来贴上第一张吧～'
+    },
+    {
+        url:require('../assets/images/暂无数据.svg'),
+        msg:'目前还没有留言，快来贴上第一张吧～'
+    },
+    {
+        url:require('../assets/images/暂无消息.svg'),
+        msg:'目前还没有留言，快来贴上第一张吧～'
+    },
+]

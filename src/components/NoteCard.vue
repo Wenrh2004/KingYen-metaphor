@@ -1,5 +1,5 @@
 <template>
-    <div class="note-card" :style="{ width: width, background: cardColor[card.imgurl] }">
+    <div class="note-card" :style="{ width: width, background: cardColor[card.color] }">
         <div class="top">
             <p class="time">{{ dateOne(card.moment) }}</p>
             <p class="title">{{ label[card.type][card.label] }}</p>
@@ -8,12 +8,12 @@
         <div class="foot">
             <div class="foot-left">
                 <div class="icon">
-                    <span class="iconfont icon-aixin1"></span>
-                    <span class="value">{{ card.love }}</span>
+                    <span class="iconfont icon-aixin1" :class="{islove:card.islove[0].COUNT>0}"></span>
+                    <span class="value">{{ card.love[0].COUNT }}</span>
                 </div>
                 <div class="icon">
                     <span class="iconfont icon-liuyan"></span>
-                    <span class="value">{{ card.comment }}</span>
+                    <span class="value">{{ card.comment[0].COUNT }}</span>
                 </div>
             </div>
             <div class="name">{{ card.name }}</div>
@@ -113,6 +113,9 @@ export default {
                 &:hover{
                     color: @love-color;
                 }
+            }
+            .islove {
+                color: @love-color;
             }
         }
 

@@ -33,7 +33,7 @@
         </div>
         <div class="foot-butten">
             <metaphorButton size="max" nom="secondary" @click="closeModal(0)">丢弃</metaphorButton>
-            <metaphorButton size="max" class="sumbit" @click="submit()">确定</metaphorButton>
+            <metaphorButton size="max" class="sumbit" @click="submit() || closeModal(0)">确定</metaphorButton>
         </div>
     </div>
 </template>
@@ -41,6 +41,7 @@
 import { cardColor,cardColorChooese,label } from "@/utils/data";
 import { getObjectURL } from "@/utils/way";
 import metaphorButton from './metaphorButton.vue';
+import { insertWallApi } from "@/api/index";
 export default {
     data() {
         return {
@@ -52,7 +53,7 @@ export default {
             message:'', //  留言信息
             name:'',    //  签名
             url:'',     //  图片路径
-            user:this.$store.state.user,
+            user:this.$store.state.user,    //  用户ID
         }
     },
     components:{
@@ -94,11 +95,36 @@ export default {
                 name:name,
                 userID:this.user.id,
                 moment:new Date(),
-                label:this.nowLabel,
+                label:this.labelSelected,
                 color:5,
                 imgurl:'',
             };
             console.log(data);
+            if (this.message && this.id == 0) {
+                data.color = this.colorSelected,
+                insertWallApi(data).then((res) => {
+                    console.log(res);
+                    let cardDate = {
+                        type:this.id,
+                        message:this.message,
+                        name:name,
+                        userID:this.user.id,
+                        moment:new Date(),
+                        label:this.labelSelected,
+                        color:this.colorSelected,
+                        imgurl:'',
+                        id:res.message.insertId,
+                        islove:[{COUNT:0}],
+                        love:[{COUNT:0}],
+                        comcount:[{COUNT:0}],
+                        report:[{COUNT:0}],
+                        revoke:[{COUNT:0}]
+                    }
+                    this.$emit("clickbt",cardDate);
+                    this.message = '';
+                    this.$message({ type:"success",message:"感谢您的记录！"});
+                })
+            }
         }
     }
 }

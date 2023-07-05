@@ -11,7 +11,7 @@ let routerMode = 'hash';
 let baseImgPath;
 
 if (process.env.NODE_ENV == 'development') {
-    baseUrl = 'http://localhost:3000';
+    baseUrl = 'http://127.0.0.1:3000';
     baseImgPath = 'http://localhost:3000';
 } else {
     baseUrl = '';

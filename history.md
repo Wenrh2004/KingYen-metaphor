@@ -29,5 +29,9 @@ vue add style-resources-loader
 ```
 npm install mockjs
 ```
+* lottie
+```
+npm i lottie-web
+```
 ### 引入 iconfont 字样
 > [iconfont](http://www.iconfont.cn/)
