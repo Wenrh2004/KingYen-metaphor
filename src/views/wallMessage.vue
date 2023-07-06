@@ -8,7 +8,7 @@
         </div>
         <!-- 留言 -->
         <div class="card" v-show="id==0">
-            <NoteCard class="card-inner" v-for="(e,index) in note" :key="index" :note="e" :width="'288px'" :class="{cardselected:index==cardSelected}" @click="selectedCard(index)"></NoteCard>
+            <NoteCard class="card-inner" v-for="(e,index) in note" :key="index" :note="e" :width="'288px'" :class="{cardselected:index==cardSelected}" @toDetail="selectedCard(index)"></NoteCard>
         </div>
         <!-- 图片 -->
         <div class="photo" v-show="id==1">

@@ -4,7 +4,7 @@
             <p class="time">{{ dateOne(card.moment) }}</p>
             <p class="title">{{ label[card.type][card.label] }}</p>
         </div>
-        <p class="message">{{ card.message }}</p>
+        <p class="message" @click="toDetail">{{ card.message }}</p>
         <div class="foot">
             <div class="foot-left">
                 <div class="icon">
@@ -12,8 +12,8 @@
                     <span class="value">{{ card.love[0].COUNT }}</span>
                 </div>
                 <div class="icon">
-                    <span class="iconfont icon-liuyan"></span>
-                    <span class="value">{{ card.comment[0].COUNT }}</span>
+                    <span class="iconfont icon-liuyan" @click="clicklike"></span>
+                    <span class="value" v-show="card.comment[0].COUNT>0">{{ card.comment[0].COUNT }}</span>
                 </div>
             </div>
             <div class="name">{{ card.name }}</div>
@@ -23,12 +23,14 @@
 <script>
 import { label,cardColor } from '@/utils/data';
 import { dateOne } from '@/utils/way';
+import { insertFeedbackApi } from "@/api/index";
 export default {
     data() {
         return{
             label,
             cardColor,
-            dateOne
+            dateOne,
+            user:this.$store.state.user
         }
     },
     props: {
@@ -46,7 +48,29 @@ export default {
     },
     created() {
         // console.log(this.card);
-    }
+    },
+    methods: {
+        // 显示详情
+        toDetail() {
+            this.$emit('toDetail')
+        },
+        // 点赞
+        clicklike() {
+            if (this.card.islove[0].COUNT == 0) {
+                let data = {
+                    wallID:this.card.id,
+                    userID:this.user.id,
+                    type:0,
+                    moment:new Date()
+                }
+                insertFeedbackApi(data).then(() => {
+                    this.card.love[0].COUNT++
+                    this.card.islove[0].COUNT++
+                    this.$message({ type:"success",message:"感谢您的点赞！"});
+                })
+            }
+        }
+    },
 }
 </script>
 <style lang="less" scoped>

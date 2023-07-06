@@ -6,13 +6,13 @@
         </div>
         <NoteCard :note="card" class="note-card"></NoteCard>
         <div class="form">
-            <textarea class="message" placeholder="请输入..."></textarea>
+            <textarea class="message" placeholder="请输入..." v-model="discuss"></textarea>
             <div class="comment">
-                <input type="text" class="name" placeholder="签名">
-                <metaphorButton>评论</metaphorButton>
+                <input type="text" class="name" placeholder="签名" v-model="name">
+                <metaphorButton :class="{ notallowed:!isDis }" @click="submit">评论</metaphorButton>
             </div>
         </div>
-        <p class="title">评论{{ card.comment }}</p>
+        <p class="title">评论{{ cards.comment[0].COUNT }}</p>
         <div class="foot-commont">
             <div class="commont-li" v-for="(e,index) in comment" :key="index">
                 <div class="user-head" :style="{backgroundImage:portrait[e.imgurl]}"></div>
@@ -21,24 +21,30 @@
                         <p class="c-name">{{ e.name }}</p>
                         <p class="c-time">{{ dateOne(e.moment) }}</p>
                     </div>
-                    <div class="c-message">{{ e.message }}</div>
+                    <div class="c-message">{{ e.comment }}</div>
                 </div>
             </div>
+            <p class="more" @click="getComment" v-show="page > 0">加载更多</p>
         </div>
     </div>
 </template>
 <script>
 import NoteCard from './NoteCard.vue';
 import metaphorButton from './metaphorButton.vue';
-import { comment } from '../../mock/index'
 import { portrait } from '@/utils/data'
 import { dateOne } from '@/utils/way';
+import { insertCommentApi,selectCommentApi } from "@/api/index";
 export default {
     data() {
         return {
-            comment:comment.data,
+            comment:[],
             portrait,
             dateOne,
+            discuss:'', //  输入内容
+            name:'',    //  签名
+            user:this.$store.state.user,
+            page:1,
+            pagesize:2,
         }
     },
     props: {
@@ -46,9 +52,77 @@ export default {
             default: {}
         }
     },
+    computed: {
+        isDis() {
+            if (this.discuss) {
+                return true
+            } else {
+                return false
+            }
+        },
+        cards() {
+            return this.card;
+        }
+    },
     components: {
         NoteCard,
         metaphorButton,
+    },
+    methods:{
+        submit() {
+            if (this.isDis) {
+                let img = Math.floor(Math.random() * 5)
+                let name = '匿名'
+                if (this.name) {
+                    name = this.name
+                }
+                let data = {
+                    wallID:this.cards.id,
+                    userID:this.user.id,
+                    imgurl:img,
+                    comment:this.discuss,
+                    name:name,
+                    moment:new Date(),
+                }
+                console.log(data);
+                insertCommentApi(data).then(() => {
+                    this.comment.unshift(data)
+                    this.cards.comment[0].COUNT++
+                    this.discuss = '',
+                    this.name ='',
+                    this.$message({ type:"success",message:"感谢您的评论！"});
+                })
+            }
+        },
+        getComment() {
+            if (this.page > 0) {
+                let data = {
+                    id:this.cards.id,
+                    page:this.page,
+                    pagesize:this.pagesize,
+                }
+                console.log(data);
+                selectCommentApi(data).then((res) => {
+                    this.comment = this.comment.concat(res.message)
+                    if (res.message.length == this.pagesize) {
+                        this.page++
+                    } else {
+                        this.page = 0
+                    }
+                    console.log(this.comment);
+                })
+            }
+        }
+    },
+    mounted() {
+        this.getComment()
+    },
+    watch:{
+        card() {
+            this.page = 1;
+            this.comment = [];
+            this.getComment();
+        }
     }
 }
 </script>
@@ -149,6 +223,12 @@ export default {
                 padding-top: @padding-4;
             }
         }
+    }
+    .more {
+        color: @gray-2;
+        text-align: center;
+        padding-top: 12px;
+        cursor: pointer;
     }
     }
 }

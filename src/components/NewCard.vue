@@ -33,7 +33,7 @@
         </div>
         <div class="foot-butten">
             <metaphorButton size="max" nom="secondary" @click="closeModal(0)">丢弃</metaphorButton>
-            <metaphorButton size="max" class="sumbit" @click="submit() || closeModal(0)">确定</metaphorButton>
+            <metaphorButton size="max" class="sumbit" @click="submit()">确定</metaphorButton>
         </div>
     </div>
 </template>
@@ -116,7 +116,7 @@ export default {
                         id:res.message.insertId,
                         islove:[{COUNT:0}],
                         love:[{COUNT:0}],
-                        comcount:[{COUNT:0}],
+                        comment:[{COUNT:0}],
                         report:[{COUNT:0}],
                         revoke:[{COUNT:0}]
                     }
