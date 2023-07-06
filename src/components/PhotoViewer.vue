@@ -4,7 +4,7 @@
         
             <div class="bg"></div>
             <div class="viewer-photo">
-                <img :src="require('../../static/' + photos[nowNumber] + '.jpg')">
+                <img :src="baseUrl + photos[nowNumber]">
             </div>
             <div class="switch sw-left" @click="changeNumber(0)" v-show="nowNumber > 0">
                 <span class="iconfont icon-xiangzuo"></span>
@@ -16,7 +16,13 @@
     </transition>
 </template>
 <script>
+import { baseUrl } from "@/utils/env";
 export default {
+    data() {
+        return {
+            baseUrl
+        }
+    },
     props: {
         photos: {
             default:[],

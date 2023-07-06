@@ -14,3 +14,6 @@ export const insertCommentApi = data => fetch.post('/insertcomment',data);
 export const selectWallPageApi = data => fetch.post('/selectwallpage',data);
 // comment
 export const selectCommentApi = data => fetch.post('/selectcomment',data);
+
+// 图片上传
+export const profileApi = data => fetch.post('/profile',data)

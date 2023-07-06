@@ -1,20 +1,24 @@
 <template>
     <div class="photo-card">
-        <img :src="require('../../static/'+photo.imgurl+'.jpg')">
-        <div class="photo-bg"></div>
-        <div class="photo-love">
-            <span class="iconfont icon-aixin1"></span>
-            <span class="love-data">{{ photo.love }}</span>
+        <img :src="baseUrl + photo.imgurl" class="photo-img">
+        <div class="photo-bg" @click="toDetail"></div>
+        <div class="photo-love" @click="clicklove">
+            <span class="iconfont icon-aixin1" :class="{islove:card.islove[0].COUNT>0}"></span>
+            <span class="love-data">{{ photo.love[0].COUNT }}</span>
         </div>
     </div>
 </template>
 <script>
 import { label,cardColor } from '@/utils/data';
+import { baseUrl } from "@/utils/env";
+import { insertFeedbackApi } from "@/api/index";
 export default {
     data() {
         return {
             label,
-            cardColor
+            cardColor,
+            baseUrl,
+            user:this.$store.state.user
         }
     },
     props: {
@@ -22,13 +26,35 @@ export default {
             default:{}
         }
     },
+    methods:{
+        // 显示详情
+        toDetail() {
+            this.$emit('toDetail')
+        },
+        // 点赞
+        clicklike() {
+            if (this.card.islove[0].COUNT == 0) {
+                let data = {
+                    wallID:this.card.id,
+                    userID:this.user.id,
+                    type:0,
+                    moment:new Date()
+                }
+                insertFeedbackApi(data).then(() => {
+                    this.card.love[0].COUNT++
+                    this.card.islove[0].COUNT++
+                    this.$message({ type:"success",message:"感谢您的点赞！"});
+                })
+            }
+        }
+    },
     computed: {
         card() {
-            return this.note;
+            return this.photo;
         }
     },
     created() {
-        // console.log(this.card);
+        console.log(this.card);
     }
 }
 </script>
@@ -47,6 +73,7 @@ export default {
         height: 100%;
         opacity: 0;
         transition: @tr;
+        cursor: pointer;
     }
     .photo-love {
         position: absolute;
@@ -81,6 +108,9 @@ export default {
         .photo-love {
             opacity: 1;
         }
+        .islove {
+                color: @love-color;
+            }
     }
 }
 </style>

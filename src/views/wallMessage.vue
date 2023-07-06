@@ -12,7 +12,7 @@
         </div>
         <!-- 图片 -->
         <div class="photo" v-show="id==1">
-            <PhotoCard :photo="e" class="photo-card" v-for="(e,index) in photo" :key="index" @click="selectedCard(index)"></PhotoCard>
+            <PhotoCard :photo="e" class="photo-card" v-for="(e,index) in note" :key="index" @toDetail="selectedCard(index)"></PhotoCard>
         </div>
         <!-- 卡片状态 -->
         <div class="none" v-if="isOK == -1">
@@ -38,7 +38,6 @@
 </template>
 <script>
 import { wallType,label,none } from "@/utils/data"
-import { photo } from "../../mock/index"
 import { selectWallPageApi } from "@/api/index";
 import NoteCard from '@/components/NoteCard.vue'
 import metaModal from "@/components/mrtaphorModal.vue"
@@ -61,7 +60,6 @@ export default {
             title:'留言',    // 标题
             modal:false,    // 弹窗状态
             cardSelected:-1, //  当前选择卡片
-            photo:photo.data,    //  图片资源
             photoArr:[],    //  图片列表
             view:false, //  预览大图
             isOK:-1, //  加载状态   -1 加载中   0 无数据

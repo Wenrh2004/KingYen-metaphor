@@ -41,7 +41,7 @@
 import { cardColor,cardColorChooese,label } from "@/utils/data";
 import { getObjectURL } from "@/utils/way";
 import metaphorButton from './metaphorButton.vue';
-import { insertWallApi } from "@/api/index";
+import { insertWallApi,profileApi } from "@/api/index";
 export default {
     data() {
         return {
@@ -77,11 +77,6 @@ export default {
         // 关闭弹窗
         closeModal(data) {
             this.$emit('addClose',data);
-        },
-        // 上传图片展
-        showPhoto() {
-            let aa = getObjectURL(document.getElementById("file").files[0]);
-            this.url = aa;
         },
         // submit
         submit(){
@@ -124,8 +119,52 @@ export default {
                     this.message = '';
                     this.$message({ type:"success",message:"感谢您的记录！"});
                 })
+            } else if (this.id == 1 && this.url) {
+                this.updatePhoto(data);
             }
-        }
+        },
+        // 图片展示
+        showPhoto() {
+            let aa = getObjectURL(document.getElementById("file").files[0]);
+            this.url = aa;
+        },
+        // 图片上传
+        updatePhoto(data) {
+            let file = document.getElementById("file")
+            if (file.files.length > 0) {
+                let formData = new FormData()
+                formData.append('file',file.files[0])
+
+                // 后端提交
+                profileApi(formData).then((res) => {
+                    // console.log(res);
+                    data.imgurl = res
+                    // 数据存储
+                    insertWallApi(data).then((result) => {
+                    // console.log(result);
+                    let cardDate = {
+                        type:this.id,
+                        message:this.message,
+                        name:data.name,
+                        userID:this.user.id,
+                        moment:new Date(),
+                        label:this.labelSelected,
+                        color:5,
+                        imgurl:res,
+                        id:result.message.insertId,
+                        islove:[{COUNT:0}],
+                        love:[{COUNT:0}],
+                        comment:[{COUNT:0}],
+                        report:[{COUNT:0}],
+                        revoke:[{COUNT:0}]
+                    }
+                    this.$emit("clickbt",cardDate);
+                    this.message = '';
+                    this.$message({ type:"success",message:"感谢您的记录！"});
+                })
+                })
+            }
+        },
     }
 }
 </script>
